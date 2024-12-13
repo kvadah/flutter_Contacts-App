@@ -1,4 +1,5 @@
 import 'package:contacts/CRUD/crud_service.dart';
+import 'package:contacts/new_contact_view.dart';
 import 'package:flutter/material.dart';
 
 class ContactsView extends StatefulWidget {
@@ -25,6 +26,23 @@ class _ContactsViewState extends State<ContactsView> {
         appBar: AppBar(
           title: const Text("Contacts"),
           backgroundColor: const Color.fromARGB(255, 209, 127, 3),
+          actions: [
+            IconButton(
+              onPressed: () {
+                 Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewContact(dbService: dbService),
+                ),
+              );
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Colors.black,
+                size: 20,
+              ),
+            )
+          ],
         ),
         body: StreamBuilder(
           stream: contactsStram,
