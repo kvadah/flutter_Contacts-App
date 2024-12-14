@@ -43,6 +43,7 @@ class DbService {
   late final StreamController<List<Contacts>> contactsStreamer;
   List<Contacts> _allContacts = [];
   DbService() {
+    
     contactsStreamer = StreamController<List<Contacts>>.broadcast(onListen: () {
       contactsStreamer.sink.add(_allContacts);
     });

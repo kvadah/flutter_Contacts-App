@@ -16,6 +16,7 @@ class _ContactsViewState extends State<ContactsView> {
   @override
   void initState() {
     dbService = DbService();
+    dbService.initDatabase();
     contactsStram = dbService.contactsStreamer.stream;
     super.initState();
   }
@@ -29,12 +30,12 @@ class _ContactsViewState extends State<ContactsView> {
           actions: [
             IconButton(
               onPressed: () {
-                 Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NewContact(dbService: dbService),
-                ),
-              );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewContact(dbService: dbService),
+                  ),
+                );
               },
               icon: const Icon(
                 Icons.add,
