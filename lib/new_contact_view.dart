@@ -1,6 +1,6 @@
 import 'package:contacts/CRUD/crud_exceptions.dart';
 import 'package:contacts/CRUD/crud_service.dart';
-import 'package:contacts/Toast/generic_toast.dart';
+import 'package:contacts/Interactine_messages/generic_toast.dart';
 import 'package:flutter/material.dart';
 
 class NewContact extends StatefulWidget {
@@ -157,27 +157,31 @@ class _NewContactState extends State<NewContact> {
                           final phone = phoneController.text;
                           final address = addressController.text;
                           if (name.isEmpty || phone.isEmpty) {
-                            if (name.isNotEmpty) {
-                               // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
-                              return;
+                            if (name.isEmpty) {
+                              showToast('Name can not be empty');
+                            } else {
+                              showToast('Phone number Can not empty');
+                            }
+                          } else {
+                            final contact = Contacts(
+                              name: name,
+                              email: email,
+                              phone: phone,
+                              address: address,
+                            );
+
+                            try {
+                              await widget.dbService.addContact(contact);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+
+                              // ignore: empty_catches
+                            } on UserAlreadyRegistered {
+                              showToast(
+                                  'This number is already in your contacts');
                             }
                           }
-                          final contact = Contacts(
-                            name: name,
-                            email: email,
-                            phone: phone,
-                            address: address,
-                          );
-
-                          try {
-                            await widget.dbService.addContact(contact);
-
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
-
-                            // ignore: empty_catches
-                          } on UserAlreadyRegistered {}
                         },
                         child: const Text(
                           'Save',
@@ -189,8 +193,24 @@ class _NewContactState extends State<NewContact> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
+                        onPressed: () async {
+                          final name = nameController.text;
+                          final phone = phoneController.text;
+
+                          if (name.isNotEmpty && phone.isNotEmpty) {
+                            final cancel = await showCancelDialog(
+                                context: context,
+                                title: 'Cancel',
+                                content: 'Do you want to Disacrd changes');
+                            if (cancel) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          }
+                          // ignore: use_build_context_synchronously
+                          else {
+                            Navigator.pop(context);
+                          }
                         },
                         child: const Text(
                           'Cancel',
