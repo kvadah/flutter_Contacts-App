@@ -24,6 +24,7 @@ class _ContactsViewState extends State<ContactsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text("Contacts"),
           backgroundColor: const Color.fromARGB(255, 209, 127, 3),
@@ -60,9 +61,21 @@ class _ContactsViewState extends State<ContactsView> {
                       itemCount: allContacts.length,
                       itemBuilder: (context, index) {
                         final contact = allContacts[index];
-                        return ListTile(
-                          title: Text(contact.name),
-                          subtitle: Text(contact.phone),
+
+                        return Container(
+                          margin: const EdgeInsets.all(8),
+                          child: SizedBox(
+                            height: 60,
+                            child: ListTile(
+                              title: Text(
+                                contact.name,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                          ),
                         );
                       });
                 }
