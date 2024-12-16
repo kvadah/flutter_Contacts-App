@@ -30,6 +30,14 @@ class _ContactsViewState extends State<ContactsView> {
           backgroundColor: const Color.fromARGB(255, 209, 127, 3),
           actions: [
             IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+                size: 30,
+                color: Colors.black,
+              ),
+            ),
+            IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -41,9 +49,9 @@ class _ContactsViewState extends State<ContactsView> {
               icon: const Icon(
                 Icons.add,
                 color: Colors.black,
-                size: 20,
+                size: 30,
               ),
-            )
+            ),
           ],
         ),
         body: StreamBuilder(
@@ -63,10 +71,16 @@ class _ContactsViewState extends State<ContactsView> {
                         final contact = allContacts[index];
 
                         return Container(
-                          margin: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.only(
+                              top: 5, left: 0.5, right: 0),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(166, 53, 44, 44),
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
                           child: SizedBox(
-                            height: 60,
+                            height: 50,
                             child: ListTile(
+                              leading: const CircleAvatar(),
                               title: Text(
                                 contact.name,
                                 style: const TextStyle(
