@@ -62,6 +62,8 @@ class _ContactsViewState extends State<ContactsView> {
               case ConnectionState.active:
                 if (snapshot.hasData) {
                   final allContacts = snapshot.data as List<Contacts>;
+                  allContacts.sort((a, b) =>
+                      a.name.toLowerCase().compareTo(b.name.toLowerCase()));
                   if (allContacts.isEmpty) {
                     return const Center(child: Text("No contacts Availabel"));
                   }

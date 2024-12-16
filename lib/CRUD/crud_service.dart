@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:contacts/CRUD/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
 class Contacts {
   final int? id;
   final String name;
@@ -27,23 +28,24 @@ class Contacts {
       favoriteColumn: isFavorite ? 1 : 0,
     };
   }
+
   factory Contacts.fromMap(Map<String, dynamic> map) {
     return Contacts(
       id: map[idColumn],
       name: map[nameColumn],
       phone: map[phoneNoColumn],
-      email: map[emailColumn]??'',
-      address: map[addressColumn]??'',
+      email: map[emailColumn] ?? '',
+      address: map[addressColumn] ?? '',
       isFavorite: map[favoriteColumn] == 1,
     );
   }
 }
+
 class DbService {
   Database? _db;
   late final StreamController<List<Contacts>> contactsStreamer;
   List<Contacts> _allContacts = [];
   DbService() {
-    
     contactsStreamer = StreamController<List<Contacts>>.broadcast(onListen: () {
       contactsStreamer.sink.add(_allContacts);
     });
@@ -53,12 +55,14 @@ class DbService {
     _allContacts = allContacts;
     contactsStreamer.sink.add(_allContacts);
   }
+
   Future<void> dbMustBeOpen() async {
     try {
       await initDatabase();
       // ignore: empty_catches
     } on DatabaseIsAlreadyOpened {}
   }
+
   Database getDb() {
     final db = _db;
     if (db != null) {
@@ -67,6 +71,7 @@ class DbService {
       throw DatabaseIsNotOpened();
     }
   }
+
   Future<void> initDatabase() async {
     if (_db != null) throw DatabaseIsAlreadyOpened();
     final databasePath = await getDatabasesPath();
@@ -77,14 +82,16 @@ class DbService {
     await _db?.execute(createContactsTable);
     _catcheContacts();
   }
+
   Future<void> close() async {
-  await contactsStreamer.close();
-  final db = _db;
-  if (db != null) {
-    await db.close();
-    _db = null;
+    await contactsStreamer.close();
+    final db = _db;
+    if (db != null) {
+      await db.close();
+      _db = null;
+    }
   }
-}
+
   Future<Contacts> addContact(Contacts contact) async {
     await dbMustBeOpen();
     final db = getDb();
@@ -106,6 +113,7 @@ class DbService {
     contactsStreamer.sink.add(_allContacts);
     return createdContact;
   }
+
   Future<int> deleteContact(int id) async {
     await dbMustBeOpen();
     final db = getDb();
@@ -115,13 +123,16 @@ class DbService {
     contactsStreamer.sink.add(_allContacts);
     return deletes;
   }
+
   Future<List<Contacts>> getAllContacts() async {
     await dbMustBeOpen();
     final db = getDb();
-    final List<Map<String, dynamic>> result = await db.query(contactsTable);
+    final List<Map<String, dynamic>> result =
+        await db.query(contactsTable);
     return List.generate(result.length, (i) => Contacts.fromMap(result[i]));
   }
 }
+
 const idColumn = 'id';
 const nameColumn = 'name';
 const phoneNoColumn = 'phone';
