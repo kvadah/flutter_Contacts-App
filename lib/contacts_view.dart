@@ -87,7 +87,10 @@ class _ContactsViewState extends State<ContactsView> {
                     return const Center(child: Text("No contacts Availabel"));
                   }
                   return GroupedContactsList(
-                      sortedKeys: sortedKeys, groupedContacts: groupedContacts);
+                    sortedKeys: sortedKeys,
+                    groupedContacts: groupedContacts,
+                    dbService: dbService,
+                  );
                 }
                 return const Text("no snapshot data");
               default:

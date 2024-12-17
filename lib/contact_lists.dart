@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class GroupedContactsList extends StatelessWidget {
   final List<String> sortedKeys; // List of sorted letters for headers
   final Map<String, List<Contacts>> groupedContacts;
+  final DbService dbService;
   const GroupedContactsList({
     super.key,
     required this.sortedKeys,
     required this.groupedContacts,
+    required this.dbService,
   });
 
   @override
@@ -66,6 +68,7 @@ class GroupedContactsList extends StatelessWidget {
                                     contact: contact,
                                     avatarColor: avatarColor,
                                     letter: initial,
+                                    dbService:dbService,
                                   )));
                     },
                   ),

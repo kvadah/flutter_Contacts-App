@@ -10,6 +10,9 @@ void main() {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
+        routes: {
+     '/contacts_view': (context) =>const ContactsView(),
+        },
         //returning a home page view
         home: const ContactsView(),));
 }

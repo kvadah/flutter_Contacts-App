@@ -1,15 +1,19 @@
 import 'package:contacts/CRUD/crud_service.dart';
+import 'package:contacts/Interactine_messages/generic_toast.dart';
 import 'package:flutter/material.dart';
 
 class ContactDetail extends StatefulWidget {
   final Contacts contact;
   final Color avatarColor;
   final String letter;
-  const ContactDetail(
-      {super.key,
-      required this.contact,
-      required this.avatarColor,
-      required this.letter});
+  final DbService dbService;
+  const ContactDetail({
+    super.key,
+    required this.contact,
+    required this.avatarColor,
+    required this.letter,
+    required this.dbService,
+  });
 
   @override
   State<ContactDetail> createState() => _ContactDetailState();
@@ -119,7 +123,18 @@ class _ContactDetailState extends State<ContactDetail> {
                     width: 40,
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final toBeDeleted = await showDeleteDialog(
+                          context: context,
+                          title: 'Delete',
+                          content: 'Do you want to delete this contact',
+                        );
+                        if (toBeDeleted) {
+                          widget.dbService.deleteContact(widget.contact.id!);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        }
+                      },
                       icon: const Icon(
                         Icons.delete_outline_rounded,
                         color: Colors.white,
