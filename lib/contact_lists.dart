@@ -1,5 +1,6 @@
 import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/Utilities/colors.dart';
+import 'package:contacts/contact_detail.dart';
 import 'package:flutter/material.dart';
 
 class GroupedContactsList extends StatelessWidget {
@@ -57,6 +58,16 @@ class GroupedContactsList extends StatelessWidget {
                         fontWeight: FontWeight.w300,
                       ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactDetail(
+                                    contact: contact,
+                                    avatarColor: avatarColor,
+                                    letter: initial,
+                                  )));
+                    },
                   ),
                 ),
               );
