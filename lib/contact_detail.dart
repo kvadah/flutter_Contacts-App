@@ -1,5 +1,6 @@
 import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/Interactine_messages/generic_toast.dart';
+import 'package:contacts/Utilities/uri_laucherss.dart';
 import 'package:flutter/material.dart';
 
 class ContactDetail extends StatefulWidget {
@@ -75,7 +76,9 @@ class _ContactDetailState extends State<ContactDetail> {
                         CircleAvatar(
                           backgroundColor: Colors.green,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await makePhoneCall(widget.contact.phone);
+                              },
                               icon: const Icon(
                                 Icons.call,
                                 color: Colors.white,
@@ -88,7 +91,9 @@ class _ContactDetailState extends State<ContactDetail> {
                           backgroundColor:
                               const Color.fromARGB(255, 29, 123, 201),
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await sendSMS(widget.contact.phone);
+                              },
                               icon: const Icon(
                                 Icons.sms,
                                 color: Colors.white,
@@ -98,7 +103,11 @@ class _ContactDetailState extends State<ContactDetail> {
                     ),
                     const Spacer(),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (widget.contact.email!.isNotEmpty) {
+                            sendEmail(widget.contact.email!);
+                          }
+                        },
                         child: Text(
                           'email: ${widget.contact.email!}',
                           style: const TextStyle(color: Colors.white),
