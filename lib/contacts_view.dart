@@ -1,6 +1,7 @@
 import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/contact_lists.dart';
 import 'package:contacts/new_contact_view.dart';
+import 'package:contacts/search_contacts.dart';
 import 'package:flutter/material.dart';
 
 class ContactsView extends StatefulWidget {
@@ -31,7 +32,14 @@ class _ContactsViewState extends State<ContactsView> {
           backgroundColor: const Color.fromARGB(255, 209, 127, 3),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SearchContact(dbService: dbService),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.search,
                 size: 30,

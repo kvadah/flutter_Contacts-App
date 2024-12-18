@@ -162,6 +162,13 @@ class DbService {
     }
     return contact;
   }
+   Future<List<Contacts>> getContactsByName(String name) async {
+    // Fetch contacts whose names contain the query
+    final allContacts = await getAllContacts();
+    return allContacts
+        .where((contact) => contact.name.toLowerCase().contains(name.toLowerCase()))
+        .toList();
+  }
 }
 
 const idColumn = 'id';
