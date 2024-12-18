@@ -153,6 +153,35 @@ class _NewContactState extends State<NewContact> {
                       TextButton(
                         onPressed: () async {
                           final name = nameController.text;
+                          final phone = phoneController.text;
+
+                          if (name.isNotEmpty && phone.isNotEmpty) {
+                            final cancel = await showCancelDialog(
+                                context: context,
+                                title: 'Cancel',
+                                content: 'Do you want to Disacrd changes');
+                            if (cancel) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          }
+                          // ignore: use_build_context_synchronously
+                          else {
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final name = nameController.text;
                           final email = emailController.text;
                           final phone = phoneController.text;
                           final address = addressController.text;
@@ -185,35 +214,6 @@ class _NewContactState extends State<NewContact> {
                         },
                         child: const Text(
                           'Save',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final name = nameController.text;
-                          final phone = phoneController.text;
-
-                          if (name.isNotEmpty && phone.isNotEmpty) {
-                            final cancel = await showCancelDialog(
-                                context: context,
-                                title: 'Cancel',
-                                content: 'Do you want to Disacrd changes');
-                            if (cancel) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.pop(context);
-                            }
-                          }
-                          // ignore: use_build_context_synchronously
-                          else {
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text(
-                          'Cancel',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,

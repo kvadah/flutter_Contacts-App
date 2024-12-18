@@ -3,6 +3,7 @@ import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/Interactine_messages/generic_toast.dart';
 import 'package:contacts/Utilities/colors.dart';
 import 'package:contacts/contact_detail.dart';
+import 'package:contacts/contacts_view.dart';
 import 'package:flutter/material.dart';
 
 class UpdateContact extends StatefulWidget {
@@ -166,42 +167,6 @@ class _UpdateContactState extends State<UpdateContact> {
                       TextButton(
                         onPressed: () async {
                           final name = nameController.text;
-                          final email = emailController.text;
-                          final phone = phoneController.text;
-                          final address = addressController.text;
-                          if (name.isEmpty || phone.isEmpty) {
-                            if (name.isEmpty) {
-                              showToast('Name can not be empty');
-                            } else {
-                              showToast('Phone number Can not empty');
-                            }
-                          } else {
-                            final updatedContact = Contacts(
-                              id: widget.contact.id,
-                              name: name,
-                              phone: phone,
-                              email: email,
-                              address: address,
-                              isFavorite: widget.contact.isFavorite,
-                            );
-                            Navigator.pop(
-                              // ignore: use_build_context_synchronously
-                              context,updatedContact
-                            );
-                          }
-                        },
-                        child: const Text(
-                          'Update',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final name = nameController.text;
                           final phone = phoneController.text;
 
                           if (name.isNotEmpty && phone.isNotEmpty) {
@@ -221,6 +186,46 @@ class _UpdateContactState extends State<UpdateContact> {
                         },
                         child: const Text(
                           'Cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final name = nameController.text;
+                          final email = emailController.text;
+                          final phone = phoneController.text;
+                          final address = addressController.text;
+                          if (name.isEmpty || phone.isEmpty) {
+                            if (name.isEmpty) {
+                              showToast('Name can not be empty');
+                            } else {
+                              showToast('Phone number Can not empty');
+                            }
+                          } else {
+                            final updatedContact = Contacts(
+                              id: widget.contact.id,
+                              name: name,
+                              phone: phone,
+                              email: email,
+                              address: address,
+                              isFavorite: widget.contact.isFavorite,
+                            );
+                            await widget.dbService
+                                .updateContact(updatedContact, name);
+                            Navigator.pushAndRemoveUntil(
+                                // ignore: use_build_context_synchronously
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ContactsView()),
+                                (route) => false);
+                          }
+                        },
+                        child: const Text(
+                          'Update',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
