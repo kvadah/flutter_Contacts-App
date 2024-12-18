@@ -127,9 +127,38 @@ class DbService {
   Future<List<Contacts>> getAllContacts() async {
     await dbMustBeOpen();
     final db = getDb();
-    final List<Map<String, dynamic>> result =
-        await db.query(contactsTable);
+    final List<Map<String, dynamic>> result = await db.query(contactsTable);
     return List.generate(result.length, (i) => Contacts.fromMap(result[i]));
+  }
+
+  Future<Contacts> updateContact(Contacts contact) async {
+    await dbMustBeOpen();
+    final db = getDb();
+     final result = await db.query(
+      contactsTable,
+      limit: 1,
+      where: '$idColumn = ?',
+      whereArgs: [contact.id],
+    );
+
+    if (result.isEmpty) {
+      throw CouldNotUpdate(); 
+    }
+    await db.update(
+      contactsTable,
+      contact.toMap(),
+      where: '$idColumn = ?',
+      whereArgs: [contact.id],
+       );
+  
+   
+   
+    final index = _allContacts.indexWhere((c) => c.id == contact.id);
+    if (index != -1) {
+      _allContacts[index] = contact;
+      contactsStreamer.sink.add(_allContacts);
+    }
+    return contact;
   }
 }
 

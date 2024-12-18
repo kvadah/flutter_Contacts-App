@@ -1,6 +1,7 @@
 import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/Interactine_messages/generic_toast.dart';
 import 'package:contacts/Utilities/uri_laucherss.dart';
+import 'package:contacts/update_contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactDetail extends StatefulWidget {
@@ -123,7 +124,17 @@ class _ContactDetailState extends State<ContactDetail> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateContact(
+                              dbService: widget.dbService,
+                              contact: widget.contact,
+                            ),
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.edit_outlined,
                         color: Colors.white,
