@@ -131,7 +131,7 @@ class DbService {
     return List.generate(result.length, (i) => Contacts.fromMap(result[i]));
   }
 
-  Future<Contacts> updateContact(Contacts contact,String name) async {
+  Future<Contacts> updateContact(Contacts contact,String name,String email,String address,String phone,) async {
     await dbMustBeOpen();
     final db = getDb();
      final result = await db.query(
@@ -147,7 +147,10 @@ class DbService {
     await db.update(
       contactsTable,
      {
-    nameColumn:name
+    nameColumn:name,
+    emailColumn:email,
+    phoneNoColumn:phone,
+    addressColumn:address
      },
       where: '$idColumn = ?',
       whereArgs: [contact.id],

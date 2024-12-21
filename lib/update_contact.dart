@@ -1,8 +1,5 @@
-import 'package:contacts/CRUD/crud_exceptions.dart';
 import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/Interactine_messages/generic_toast.dart';
-import 'package:contacts/Utilities/colors.dart';
-import 'package:contacts/contact_detail.dart';
 import 'package:contacts/contacts_view.dart';
 import 'package:flutter/material.dart';
 
@@ -215,7 +212,7 @@ class _UpdateContactState extends State<UpdateContact> {
                               isFavorite: widget.contact.isFavorite,
                             );
                             await widget.dbService
-                                .updateContact(updatedContact, name);
+                                .updateContact(updatedContact, name,email,address,phone,);
                             Navigator.pushAndRemoveUntil(
                                 // ignore: use_build_context_synchronously
                                 context,
