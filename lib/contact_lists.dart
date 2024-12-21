@@ -68,7 +68,7 @@ class GroupedContactsList extends StatelessWidget {
                                     contact: contact,
                                     avatarColor: avatarColor,
                                     letter: initial,
-                                    dbService:dbService,
+                                    dbService: dbService,
                                   )));
                     },
                   ),

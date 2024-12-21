@@ -159,6 +159,24 @@ class _ContactDetailState extends State<ContactDetail> {
                         Icons.delete_outline_rounded,
                         color: Colors.white,
                       )),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                      onPressed: () async {
+                        setState(() {
+                          widget.contact.isFavorite = !widget
+                              .contact.isFavorite; // Toggle background color
+                        });
+                         await widget.dbService.updateContact(widget.contact,widget.contact.name,widget.contact.email!,widget.contact.address!,widget.contact.phone,widget.contact.isFavorite,);
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: widget.contact.isFavorite
+                            ? Colors.yellow
+                            : Colors.white,
+                        size: 35,
+                      )),
                 ],
               ),
             ),

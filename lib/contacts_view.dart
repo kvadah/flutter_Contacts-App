@@ -1,5 +1,6 @@
 import 'package:contacts/CRUD/crud_service.dart';
 import 'package:contacts/contact_lists.dart';
+import 'package:contacts/favorite_contacts.dart';
 import 'package:contacts/new_contact_view.dart';
 import 'package:contacts/search_contacts.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,21 @@ class _ContactsViewState extends State<ContactsView> {
           title: const Text("Contacts"),
           backgroundColor: const Color.fromARGB(255, 209, 127, 3),
           actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Favourites(dbService: dbService),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.star,
+                color: Colors.yellow,
+                size: 30,
+              ),
+            ),
             IconButton(
               onPressed: () {
                 Navigator.push(

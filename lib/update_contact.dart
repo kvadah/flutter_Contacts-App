@@ -196,6 +196,7 @@ class _UpdateContactState extends State<UpdateContact> {
                           final email = emailController.text;
                           final phone = phoneController.text;
                           final address = addressController.text;
+                          final isFavorite = widget.contact.isFavorite;
                           if (name.isEmpty || phone.isEmpty) {
                             if (name.isEmpty) {
                               showToast('Name can not be empty');
@@ -211,8 +212,8 @@ class _UpdateContactState extends State<UpdateContact> {
                               address: address,
                               isFavorite: widget.contact.isFavorite,
                             );
-                            await widget.dbService
-                                .updateContact(updatedContact, name,email,address,phone,);
+                            await widget.dbService.updateContact(updatedContact,
+                                name, email, address, phone, isFavorite);
                             Navigator.pushAndRemoveUntil(
                                 // ignore: use_build_context_synchronously
                                 context,

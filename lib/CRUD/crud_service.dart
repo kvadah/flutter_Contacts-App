@@ -9,7 +9,7 @@ class Contacts {
   final String phone;
   final String? email;
   final String? address;
-  final bool isFavorite;
+  bool isFavorite;
   Contacts({
     this.id,
     required this.name,
@@ -131,10 +131,17 @@ class DbService {
     return List.generate(result.length, (i) => Contacts.fromMap(result[i]));
   }
 
-  Future<Contacts> updateContact(Contacts contact,String name,String email,String address,String phone,) async {
+  Future<Contacts> updateContact(
+    Contacts contact,
+    String name,
+    String email,
+    String address,
+    String phone,
+    bool isFav,
+  ) async {
     await dbMustBeOpen();
     final db = getDb();
-     final result = await db.query(
+    final result = await db.query(
       contactsTable,
       limit: 1,
       where: '$idColumn = ?',
@@ -142,22 +149,21 @@ class DbService {
     );
 
     if (result.isEmpty) {
-      throw CouldNotUpdate(); 
+      throw CouldNotUpdate();
     }
     await db.update(
       contactsTable,
-     {
-    nameColumn:name,
-    emailColumn:email,
-    phoneNoColumn:phone,
-    addressColumn:address
-     },
+      {
+        nameColumn: name,
+        emailColumn: email,
+        phoneNoColumn: phone,
+        addressColumn: address,
+        favoriteColumn: isFav
+      },
       where: '$idColumn = ?',
       whereArgs: [contact.id],
-       );
-  
-   
-   
+    );
+
     final index = _allContacts.indexWhere((c) => c.id == contact.id);
     if (index != -1) {
       _allContacts[index] = contact;
@@ -165,12 +171,20 @@ class DbService {
     }
     return contact;
   }
-   Future<List<Contacts>> getContactsByName(String name) async {
+
+  Future<List<Contacts>> getContactsByName(String name) async {
     // Fetch contacts whose names contain the query
     final allContacts = await getAllContacts();
     return allContacts
-        .where((contact) => contact.name.toLowerCase().contains(name.toLowerCase()))
+        .where((contact) =>
+            contact.name.toLowerCase().contains(name.toLowerCase()))
         .toList();
+  }
+
+  Future<List<Contacts>> getFav() async {
+    // Fetch contacts whose names contain the query
+    final allContacts = await getAllContacts();
+    return allContacts.where((contact) => contact.isFavorite).toList();
   }
 }
 
